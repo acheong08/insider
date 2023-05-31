@@ -3,7 +3,6 @@ package senate
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/url"
 	"strings"
@@ -40,9 +39,6 @@ func GetLatestReports(num int) ([]Report, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		// Read body
-		body, _ := io.ReadAll(resp.Body)
-		log.Println(string(body))
 		return nil, fmt.Errorf("expected status code 200, got %d", resp.StatusCode)
 	}
 	log.Println("Parsing response")
