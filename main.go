@@ -9,6 +9,7 @@ import (
 	network "github.com/acheong08/politics/utilities/network"
 )
 
+// Testing
 func main() {
 	client := network.Init()
 	results, err := senate_crawler.GetLatestReports(client, 10)
