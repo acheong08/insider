@@ -1,4 +1,4 @@
-package senate
+package network
 
 import (
 	"io"
@@ -24,8 +24,7 @@ var (
 		tls_client.WithNotFollowRedirects(),
 		tls_client.WithCookieJar(jar), // create cookieJar instance and pass it as argument
 	}
-	http_proxy       = os.Getenv("http_proxy")
-	initialized bool = false
+	http_proxy = os.Getenv("http_proxy")
 )
 
 var client tls_client.HttpClient
@@ -35,10 +34,7 @@ var HEADERS map[string]string = map[string]string{
 	"referer":    "https://efdsearch.senate.gov/search/home/",
 }
 
-var middleware_token string
-
 func Init() *tls_client.HttpClient {
-	initialized = true
 	// Reset client
 	client, _ = tls_client.NewHttpClient(tls_client.NewNoopLogger(), options...)
 	log.Println("Senate crawler initialized")
@@ -75,7 +71,7 @@ func Init() *tls_client.HttpClient {
 		log.Fatalf("Expected status code 200, got %d", resp.StatusCode)
 	}
 	body, _ := io.ReadAll(resp.Body)
-	middleware_token, err = utilities.ExtractMiddlewareToken(string(body))
+	middleware_token, err := utilities.ExtractMiddlewareToken(string(body))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -120,12 +116,6 @@ func Init() *tls_client.HttpClient {
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
 		log.Fatalf("Expected status code 200, got %d", resp.StatusCode)
-	}
-	// Get middleware token
-	body, _ = io.ReadAll(resp.Body)
-	middleware_token, err = utilities.ExtractMiddlewareToken(string(body))
-	if err != nil {
-		log.Fatal(err)
 	}
 	return &client
 }

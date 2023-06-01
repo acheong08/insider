@@ -7,19 +7,16 @@ import (
 	"strconv"
 
 	"github.com/acheong08/politics/utilities"
+	"github.com/acheong08/politics/utilities/network"
 	"github.com/acheong08/soup"
 	http "github.com/bogdanfinn/fhttp"
+	tls_client "github.com/bogdanfinn/tls-client"
 )
 
-var HEADERS map[string]string = map[string]string{
-	"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
-	"referer":    "https://efdsearch.senate.gov/search/home/",
-}
-
-func GetPTR(ptr string) ([]Transaction, error) {
+func GetPTR(client *tls_client.HttpClient, ptr string) ([]Transaction, error) {
 	URL := "https://efdsearch.senate.gov/search/view/ptr/" + ptr + "/"
 	req, _ := http.NewRequest("GET", URL, nil)
-	utilities.SetHeaders(req, HEADERS)
+	utilities.SetHeaders(req, network.HEADERS)
 	resp, err := (*client).Do(req)
 	if err != nil {
 		return nil, err

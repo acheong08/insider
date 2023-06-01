@@ -8,29 +8,28 @@ import (
 	"strings"
 
 	"github.com/acheong08/politics/utilities"
+	"github.com/acheong08/politics/utilities/network"
 	http "github.com/bogdanfinn/fhttp"
+	tls_client "github.com/bogdanfinn/tls-client"
 )
 
-const SEARCH_ENDPOINT string = HOST + "/search/report/data/"
+const SEARCH_ENDPOINT string = network.HOST + "/search/report/data/"
 
-func GetLatestReports(num int) ([]Report, error) {
-	if !initialized {
-		Init()
-	}
+func GetLatestReports(client *tls_client.HttpClient, num int) ([]Report, error) {
 	log.Println("Creating query params")
 	query := NewQueryParams(0, num)
 	log.Println(query)
 	log.Println("Sending request")
 	req, _ := http.NewRequest("POST", SEARCH_ENDPOINT, strings.NewReader(query))
-	utilities.SetHeaders(req, HEADERS)
+	utilities.SetHeaders(req, network.HEADERS)
 	req.Header.Set("content-type", "application/x-www-form-urlencoded")
 	// Get csrf token
-	for _, cookie := range client.GetCookieJar().Cookies(&url.URL{Host: DOMAIN}) {
+	for _, cookie := range (*client).GetCookieJar().Cookies(&url.URL{Host: network.DOMAIN}) {
 		if cookie.Name == "csrftoken" {
 			req.Header.Set("X-CSRFToken", cookie.Value)
 		}
 	}
-	resp, err := client.Do(req)
+	resp, err := (*client).Do(req)
 	if err != nil {
 		return nil, err
 	}
