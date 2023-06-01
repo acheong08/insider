@@ -7,8 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/acheong08/politics/utilities"
-	"github.com/acheong08/politics/utilities/network"
+	"insider/utilities"
+	"insider/utilities/network"
+
 	"github.com/acheong08/soup"
 	http "github.com/bogdanfinn/fhttp"
 	tls_client "github.com/bogdanfinn/tls-client"

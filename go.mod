@@ -1,4 +1,4 @@
-module github.com/acheong08/politics
+module insider
 
 go 1.20
 

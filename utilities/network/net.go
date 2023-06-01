@@ -10,7 +10,7 @@ import (
 	http "github.com/bogdanfinn/fhttp"
 	tls_client "github.com/bogdanfinn/tls-client"
 
-	"github.com/acheong08/politics/utilities"
+	"insider/utilities"
 )
 
 const HOST string = "https://efdsearch.senate.gov"

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/acheong08/politics/crawlers/congress"
-	senate_crawler "github.com/acheong08/politics/crawlers/senate"
-	senate_parser "github.com/acheong08/politics/parsers/senate"
-	"github.com/acheong08/politics/utilities/network"
+	"insider/crawlers/congress"
+	senate_crawler "insider/crawlers/senate"
+	senate_parser "insider/parsers/senate"
+	"insider/utilities/network"
 )
 
 // Testing
