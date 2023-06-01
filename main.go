@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	results, err := senate.GetLatestReports(10)
+	results, err := senate.GetLatestReports(100)
 	if err != nil {
 		panic(err)
 	}

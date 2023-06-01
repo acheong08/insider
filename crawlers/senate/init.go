@@ -41,7 +41,7 @@ func Init() *tls_client.HttpClient {
 	initialized = true
 	// Reset client
 	client, _ = tls_client.NewHttpClient(tls_client.NewNoopLogger(), options...)
-	log.Println("Congress crawler initialized")
+	log.Println("Senate crawler initialized")
 
 	// Set proxy if it exists
 	if http_proxy != "" {
