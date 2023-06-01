@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
+	"github.com/acheong08/politics/crawlers/congress"
 	senate_crawler "github.com/acheong08/politics/crawlers/senate"
 	senate_parser "github.com/acheong08/politics/parsers/senate"
 	"github.com/acheong08/politics/utilities/network"
@@ -23,14 +25,11 @@ func main() {
 	}
 	transactions_json, _ := json.MarshalIndent(transactions, "", "  ")
 	fmt.Println(string(transactions_json))
+	entries, err := congress.GetEntriesByYear(2023)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	for _, entry := range entries {
+		fmt.Println(entry)
+	}
 }
-
-// func main() {
-// 	entries, err := congress.GetEntriesByYear(2023)
-// 	if err != nil {
-// 		log.Fatalf("error: %v", err)
-// 	}
-// 	for _, entry := range entries {
-// 		fmt.Println(entry)
-// 	}
-// }

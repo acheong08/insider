@@ -5,6 +5,7 @@ import (
 	"io"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/acheong08/politics/utilities"
 	"github.com/acheong08/politics/utilities/network"
@@ -44,6 +45,29 @@ func GetPTR(client *tls_client.HttpClient, ptr string) ([]Transaction, error) {
 		asset := Asset{
 			Type: tds[5].Text(),
 		}
+		// Find amount range
+		amount_range := tds[7].Text()
+		// Remove commas
+		amount_range = strings.ReplaceAll(amount_range, ",", "")
+		// Regex to find $<int> (2 instances)
+		re := regexp.MustCompile(`\$([0-9]+)`)
+		matches := re.FindAllStringSubmatch(amount_range, -1)
+		if len(matches) != 2 {
+			return nil, fmt.Errorf("expected 2 matches, got %d", len(matches))
+		}
+		// Convert to int
+		amount_min, err := strconv.Atoi(matches[0][1])
+		if err != nil {
+			return nil, err
+		}
+		amount_max, err := strconv.Atoi(matches[1][1])
+		if err != nil {
+			return nil, err
+		}
+		transactions[i].AmountRange = Range{
+			Min: amount_min,
+			Max: amount_max,
+		}
 		// Parse asset information
 		asset_info := tds[4]
 		// Asset name is the first text in asset_info (Not in a div)
@@ -60,8 +84,8 @@ func GetPTR(client *tls_client.HttpClient, ptr string) ([]Transaction, error) {
 		asset.OptionType = asset_details.Text()
 		full_details := asset_details.FullText()
 		// Regex to find $<float> and <int>/<int>/<int>
-		re := regexp.MustCompile(`\$([0-9]+\.[0-9]+)|([0-9]+\/[0-9]+\/[0-9]+)`)
-		matches := re.FindAllStringSubmatch(full_details, -1)
+		re = regexp.MustCompile(`\$([0-9]+\.[0-9]+)|([0-9]+\/[0-9]+\/[0-9]+)`)
+		matches = re.FindAllStringSubmatch(full_details, -1)
 		if len(matches) == 0 {
 			continue
 		}

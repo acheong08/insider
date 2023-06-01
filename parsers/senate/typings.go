@@ -19,6 +19,6 @@ type Asset struct {
 }
 
 type Range struct {
-	Min float64 `json:"min"`
-	Max float64 `json:"max"`
+	Min int `json:"min"`
+	Max int `json:"max"`
 }
