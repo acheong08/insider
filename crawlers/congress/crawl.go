@@ -39,6 +39,7 @@ func GetEntriesByYear(year int) ([]DocumentEntry, error) {
 	// Loop through each line
 	lines := strings.Split(string(document_txt_body), "\n")
 	entries := make([]DocumentEntry, len(lines)-2)
+	counter := 0
 	for i, line := range lines {
 		if i == 0 {
 			continue
@@ -61,15 +62,23 @@ func GetEntriesByYear(year int) ([]DocumentEntry, error) {
 		if len(fields) != 9 {
 			return nil, fmt.Errorf("expected 9 fields, got %d", len(fields))
 		}
-		entries[i-1].Prefix = fields[0]
-		entries[i-1].LastName = fields[1]
-		entries[i-1].FirstName = fields[2]
-		entries[i-1].Suffix = fields[3]
-		entries[i-1].FillingType = fields[4]
-		entries[i-1].StateDistrict = fields[5]
-		entries[i-1].Year = fields[6]
-		entries[i-1].FillingDate = fields[7]
-		entries[i-1].DocID = fields[8]
+		if fields[4] != "P" {
+			continue
+		}
+		entry := DocumentEntry{
+			Prefix:        fields[0],
+			LastName:      fields[1],
+			FirstName:     fields[2],
+			Suffix:        fields[3],
+			FillingType:   fields[4],
+			StateDistrict: fields[5],
+			Year:          fields[6],
+			FillingDate:   fields[7],
+			DocID:         fields[8],
+		}
+		entries[counter] = entry
+		counter++
 	}
+	entries = entries[:counter]
 	return entries, nil
 }
