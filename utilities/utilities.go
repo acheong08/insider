@@ -2,7 +2,6 @@ package utilities
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 
 	http "github.com/bogdanfinn/fhttp"
@@ -15,7 +14,6 @@ func SetHeaders(req *http.Request, headers map[string]string) {
 }
 
 func ExtractPtrFromHref(href string) (string, error) {
-	log.Println("Extracting ptr from href")
 	// Look for href="/search/view/ptr/<UUID>/"
 	re := regexp.MustCompile(`href="/search/view/ptr/(.*)/"`)
 	matches := re.FindStringSubmatch(href)

@@ -1,5 +1,7 @@
 github.com/acheong08/soup v0.0.0-20230601012654-4006f988a80e h1:u/vs90aAAzocimPw0erILubTNUmZudUz0FoufRyGGjo=
 github.com/acheong08/soup v0.0.0-20230601012654-4006f988a80e/go.mod h1:dEkIv4nW2vFWBDNrBi33Qwm8CbohzgehjtxrTTi3qUc=
+github.com/acheong08/soup v0.0.0-20230601014204-eb3212d2af11 h1:XHPYLHHbu12iHMLAzsdr7+NTyGGJ/9jZnl+quIVNVIs=
+github.com/acheong08/soup v0.0.0-20230601014204-eb3212d2af11/go.mod h1:dEkIv4nW2vFWBDNrBi33Qwm8CbohzgehjtxrTTi3qUc=
 github.com/andybalholm/brotli v1.0.4 h1:V7DdXeJtZscaqfNuAdSRuRFzuiKlHSC/Zh3zl9qY3JY=
 github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/bogdanfinn/fhttp v0.5.22 h1:U1jhZRtuaOanWWcm1WdMFnwMvSxUQgvO6berqAVTc5o=

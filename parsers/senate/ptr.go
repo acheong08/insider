@@ -1,6 +1,7 @@
 package senate
 
 import (
+	"fmt"
 	"io"
 	"regexp"
 	"strconv"
@@ -16,7 +17,7 @@ var HEADERS map[string]string = map[string]string{
 }
 
 func GetPTR(ptr string) ([]Transaction, error) {
-	URL := "https://efdsearch.senate.gov/search/view/ptr/" + ptr
+	URL := "https://efdsearch.senate.gov/search/view/ptr/" + ptr + "/"
 	req, _ := http.NewRequest("GET", URL, nil)
 	utilities.SetHeaders(req, HEADERS)
 	resp, err := (*client).Do(req)
@@ -24,6 +25,9 @@ func GetPTR(ptr string) ([]Transaction, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("status code %d", resp.StatusCode)
+	}
 	body, _ := io.ReadAll(resp.Body)
 	doc := soup.HTMLParse(string(body))
 	// Find first tbody element
@@ -49,8 +53,12 @@ func GetPTR(ptr string) ([]Transaction, error) {
 		asset.Name = asset_info.Text()
 		// Check if div with `text-muted` class exists
 		asset_details := asset_info.Find("div", "class", "text-muted")
-		if asset_details.Error.Type == soup.ErrElementNotFound {
-			continue
+		if asset_details.Error != nil {
+			if asset_details.Error.Type == soup.ErrElementNotFound {
+				continue
+			} else {
+				return nil, asset_details.Error
+			}
 		}
 		asset.OptionType = asset_details.Text()
 		full_details := asset_details.FullText()

@@ -3,7 +3,7 @@ module github.com/acheong08/politics
 go 1.20
 
 require (
-	github.com/acheong08/soup v0.0.0-20230601012654-4006f988a80e
+	github.com/acheong08/soup v0.0.0-20230601014204-eb3212d2af11
 	github.com/bogdanfinn/fhttp v0.5.22
 	github.com/bogdanfinn/tls-client v1.3.12
 )
