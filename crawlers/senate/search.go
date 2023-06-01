@@ -19,12 +19,9 @@ func GetLatestReports(num int) ([]Report, error) {
 	}
 	log.Println("Creating query params")
 	query := NewQueryParams(0, num)
-	payload, err := utilities.URLencode(query)
-	if err != nil {
-		return nil, err
-	}
+	log.Println(query)
 	log.Println("Sending request")
-	req, _ := http.NewRequest("POST", SEARCH_ENDPOINT, strings.NewReader(payload))
+	req, _ := http.NewRequest("POST", SEARCH_ENDPOINT, strings.NewReader(query))
 	utilities.SetHeaders(req, HEADERS)
 	req.Header.Set("content-type", "application/x-www-form-urlencoded")
 	// Get csrf token
@@ -59,7 +56,7 @@ func GetLatestReports(num int) ([]Report, error) {
 		// Extract ptr from href
 		ptr, err := utilities.ExtractPtrFromHref(report[3])
 		if err != nil {
-			return nil, err
+			continue
 		}
 		reports[i].Ptr = ptr
 	}
